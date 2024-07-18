@@ -65,8 +65,40 @@ public:
     }
 
 private:
-    std::vector<Card> cards;    
+    std::vector<Card> cards;
     int currentCard;
+};
+
+class Player {
+public:
+    void addCard(const Card& card) {
+        hand.push_back(card);
+    }
+
+    int getTotal() const {
+        int total = 0;
+        int aces = 0;
+        for (const auto& card : hand) {
+            total += card.getValue();
+            if (card.getValue() == 11) ++aces;
+        }
+        while (total > 21 && aces > 0) {
+            total -= 10;
+            --aces;
+        }
+        return total;
+    }
+
+    bool isBusted() const {
+        return getTotal() > 21;
+    }
+
+    void clearHand() {
+        hand.clear();
+    }
+
+private:
+    std::vector<Card> hand;
 };
 
 int main() {
