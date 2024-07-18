@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <random>
 #include <string>
+#include <array>
 
 class Card {
 public:
@@ -18,10 +19,10 @@ public:
     Card(Rank r, Suit s) : rank(r), suit(s) {}
 
     std::string toString() const {
-        static const std::string RANKS[] = {
+        static const std::array<std::string, 13> RANKS = {
             "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"
         };
-        static const std::string SUITS[] = {
+        static const std::array<std::string, 4> SUITS = {
             "Hearts", "Diamonds", "Clubs", "Spades"
         };
 
@@ -174,3 +175,4 @@ int main() {
     }
     return 0;
 }
+                    
