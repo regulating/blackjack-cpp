@@ -97,8 +97,21 @@ public:
         hand.clear();
     }
 
+    const std::vector<Card>& getHand() const {
+        return hand;
+    }
+
 private:
     std::vector<Card> hand;
+};
+
+class Dealer : public Player {
+public:
+    void play(Deck& deck) {
+        while (getTotal() < 17) {
+            addCard(deck.draw());
+        }
+    }
 };
 
 int main() {
