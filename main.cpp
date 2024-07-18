@@ -1,4 +1,7 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
 #include <string>
 
 class Card {
@@ -34,6 +37,36 @@ public:
 private:
     Rank rank;
     Suit suit;
+};
+
+class Deck {
+public:
+    Deck() {
+        for (int s = Card::HEARTS; s <= Card::SPADES; ++s) {
+            for (int r = Card::TWO; r <= Card::ACE; ++r) {
+                cards.emplace_back(static_cast<Card::Rank>(r), static_cast<Card::Suit>(s));
+            }
+        }
+        currentCard = 0;
+    }
+
+    void shuffle() {
+        static std::random_device rd;
+        static std::mt19937 g(rd());
+        std::shuffle(cards.begin(), cards.end(), g);
+        currentCard = 0;
+    }
+
+    Card draw() {
+        if (currentCard < cards.size()) {
+            return cards[currentCard++];
+        }
+        throw std::out_of_range("No more cards in the deck");
+    }
+
+private:
+    std::vector<Card> cards;    
+    int currentCard;
 };
 
 int main() {
