@@ -114,7 +114,63 @@ public:
     }
 };
 
+void playGame() {
+    Deck deck;
+    deck.shuffle();
+
+    Player player;
+    Dealer dealer;
+
+    player.addCard(deck.draw());
+    player.addCard(deck.draw());
+
+    dealer.addCard(deck.draw());
+    dealer.addCard(deck.draw());
+
+    std::cout << "Dealer's face-up card: " << dealer.getHand()[0].toString() << std::endl;
+
+    bool playerTurn = true;
+    while (playerTurn) {
+        std::cout << "Your total is: " << player.getTotal() << std::endl;
+        if (player.isBusted()) {
+            std::cout << "You busted! Dealer wins." << std::endl;
+            return;
+        }
+
+        std::cout << "Do you want to hit or stand? (h/s): ";
+        char choice;
+        std::cin >> choice;
+
+        if (choice == 'h') {
+            player.addCard(deck.draw());
+        } else {
+            playerTurn = false;
+        }
+    }
+
+    std::cout << "Dealer's turn." << std::endl;
+    dealer.play(deck);
+
+    std::cout << "Dealer's total is: " << dealer.getTotal() << std::endl;
+    if (dealer.isBusted()) {
+        std::cout << "Dealer busted! You win." << std::endl;
+        return;
+    }
+
+    if (player.getTotal() > dealer.getTotal()) {
+        std::cout << "You win!" << std::endl;
+    } else {
+        std::cout << "Dealer wins." << std::endl;
+    }
+}
+
 int main() {
     std::cout << "Welcome to the game of 21!" << std::endl;
+    char playAgain = 'y';
+    while (playAgain == 'y') {
+        playGame();
+        std::cout << "Do you want to play again? (y/n): ";
+        std::cin >> playAgain;
+    }
     return 0;
 }
